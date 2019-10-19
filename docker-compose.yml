@@ -12,10 +12,12 @@ services:
     ports:
       - '3050:80'
   api:
+    depends_on:
+      - postgres
     build:
       dockerfile: Dockerfile.dev
       context: ./server
-    volume:
+    volumes:
       - /app/node_modules
       - ./server:/app
     environment:
@@ -30,13 +32,16 @@ services:
     build:
       dockerfile: Dockerfile.dev
       context: ./client
-    volume:
+    volumes:
       - /app/node_modules
-      - ./client:app
+      - ./client:/app
   worker:
     build:
       dockerfile: Dockerfile.dev
       context: ./worker
-    volume:
+    volumes:
       - /app/node_modules
-      - ./worker:app
+      - ./worker:/app
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
