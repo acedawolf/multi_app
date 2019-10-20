@@ -16,10 +16,10 @@ services:
       - postgres
     build:
       dockerfile: Dockerfile.dev
-      context: ./server
+      context: ./api
     volumes:
       - /app/node_modules
-      - ./server:/app
+      - ./api:/app
     environment:
       - REDIS_HOST=redis
       - REDIS_PORT=6379
